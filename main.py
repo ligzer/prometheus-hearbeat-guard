@@ -72,6 +72,6 @@ async def monitor_telegram():
 if __name__ == "__main__":
     loop = asyncio.new_event_loop()
     loop.create_task(monitor_telegram())
-    config = Config(app=fastapi_app, loop=loop, host=HOST, port=PORT)
+    config = Config(app=fastapi_app, loop=loop, host=HOST, port=int(PORT))
     server = Server(config)
     loop.run_until_complete(server.serve())
