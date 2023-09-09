@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  prometheus-hearbeat-guard:
+    build: .
+    environment:
+      - TIMEZONE=UTC
+      - PORT=8000
+      - URL_KEY=random
+      - DELAY=600
+      - BOT_TOKEN="1:1"
