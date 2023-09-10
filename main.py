@@ -41,7 +41,7 @@ async def heartbeat():
     task = loop.create_task(process_notification())
     running_tasks.append(task)
     content = (f"# HELP prometheus_hearbeat_guard_telegram_access_errors The total count of errors\n"
-               f"# TYPE prometheus_hearbeat_guard_telegram_access_errors counter)\n"
+               f"# TYPE prometheus_hearbeat_guard_telegram_access_errors counter\n"
                f"prometheus_hearbeat_guard_telegram_access_errors {errors}\n")
     return Response(content, media_type="text/plain")
 
