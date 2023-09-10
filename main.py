@@ -1,5 +1,5 @@
 import pytz
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 import os, asyncio
 from datetime import datetime
 from telegram import get_me, send_message
@@ -40,7 +40,10 @@ async def heartbeat():
     loop = asyncio.get_running_loop()
     task = loop.create_task(process_notification())
     running_tasks.append(task)
-    return {"prometheus_hearbeat_guard_telegram_access_errors": errors}
+    content = (f"# HELP prometheus_hearbeat_guard_telegram_access_errors The total count of errors"
+               f"# TYPE prometheus_hearbeat_guard_telegram_access_errors counter)"
+               f"prometheus_hearbeat_guard_telegram_access_errors {errors}")
+    return Response(content, media_type="text/plain")
 
 
 async def process_notification():
