@@ -38,7 +38,7 @@ async def heartbeat():
         task.cancel()
     running_tasks = [task for task in running_tasks if not task.cancelled]
     loop = asyncio.get_running_loop()
-    task = loop.create_task(monitor_telegram())
+    task = loop.create_task(process_notification())
     running_tasks.append(task)
     return {"prometheus_hearbeat_guard_telegram_access_errors": errors}
 
