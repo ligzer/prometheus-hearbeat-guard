@@ -11,8 +11,8 @@ logger = logging.getLogger('uvicorn')
 
 URL_KEY = os.getenv('URL_KEY')
 HOST = os.getenv('HOST', "0.0.0.0")
-PORT = os.getenv('PORT', 8000)
-DELAY = os.getenv('DELAY', 600)
+PORT = int(os.getenv('PORT', 8000))
+DELAY = int(os.getenv('DELAY', 600))
 CHAT = os.getenv('CHAT', 0)
 TOPIC = os.getenv('TOPIC', 0)
 
