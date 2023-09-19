@@ -32,7 +32,13 @@ errors = 0
 @fastapi_app.get(f"/{URL_KEY}/heartbeat/")
 async def heartbeat():
     global running_tasks, errors, last_request
-
+    if last_request is None:
+        send_message(
+            CHAT, TOPIC,
+            f"Prometheus Heartbeat restored[OK]"
+            f"{last_request.strftime('%Y-%m-%d %H:%M:%S %Z')}"
+        )
+        logger.info("Send alert[OK]")
     last_request = datetime.now(timezone)
     for task in running_tasks:
         task.cancel()
@@ -48,13 +54,15 @@ async def heartbeat():
 
 async def process_notification():
     try:
+        global last_request
         await asyncio.sleep(DELAY)
+        last_request = None
         send_message(
             CHAT, TOPIC,
             f"Prometheus has not send hearbeat request since "
-            f"{last_request.strftime('%Y-%m-%d %H:%M:%S %Z')}"
+            f"{last_request.strftime('%Y-%m-%d %H:%M:%S %Z')} [FAIL]"
         )
-        logger.info("Send alert")
+        logger.info("Send alert[FAIL]")
     except asyncio.CancelledError as e:
         pass
     except Exception as e:
