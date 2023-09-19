@@ -6,7 +6,6 @@ from telegram import get_me, send_message
 from uvicorn import Config, Server
 import logging
 
-
 logger = logging.getLogger('uvicorn')
 
 URL_KEY = os.getenv('URL_KEY')
@@ -33,11 +32,7 @@ errors = 0
 async def heartbeat():
     global running_tasks, errors, last_request
     if last_request is None:
-        send_message(
-            CHAT, TOPIC,
-            f"Prometheus Heartbeat restored[OK]"
-            f"{last_request.strftime('%Y-%m-%d %H:%M:%S %Z')}"
-        )
+        send_message(CHAT, TOPIC, f"Prometheus Heartbeat restored[OK]")
         logger.info("Send alert[OK]")
     last_request = datetime.now(timezone)
     for task in running_tasks:
